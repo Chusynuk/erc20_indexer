@@ -32,11 +32,11 @@ function App() {
 
       const alchemy = new Alchemy(config);
 
-      if (userAddress.includes("0x")) {
+      if (Utils.isHexString(userAddress)) {
         data = await alchemy.core.getTokenBalances(userAddress);
       } else {
         const resolvedEns = await alchemy.core.resolveName(userAddress);
-        console.log(resolvedEns);
+
         data = await alchemy.core.getTokenBalances(resolvedEns);
       }
 
