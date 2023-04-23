@@ -54,11 +54,19 @@ function App() {
       setTokenDataObjects(await Promise.all(tokenDataPromises));
       setLoading(false);
       setHasQueried(true);
+      setUserAddress("");
     } catch (error) {
       setDataError(true);
       setLoading(false);
     }
   }
+
+  const handleKeyDown = async (event) => {
+    if (event.key === "Enter") {
+      getTokenBalance();
+    }
+  };
+
   return (
     <Box w="100vw">
       <Center>
@@ -87,6 +95,8 @@ function App() {
         </Heading>
         <Input
           onChange={(e) => setUserAddress(e.target.value)}
+          value={userAddress}
+          onKeyDown={handleKeyDown}
           color="black"
           w="600px"
           textAlign="center"
@@ -103,6 +113,7 @@ function App() {
           onClick={getTokenBalance}
           mt={36}
           bgColor={dataError ? "red" : "green"}
+          isDisabled={!userAddress}
         >
           {dataError
             ? "There is an error with your request..."
